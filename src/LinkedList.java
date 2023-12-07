@@ -57,6 +57,11 @@ public class LinkedList
         Node currNode = this.head;
         Node prevNode = null;
 
+        if(currNode != null && currNode.value == _value){
+            head = currNode.next;
+            return true;
+        }
+
         while (currNode != null && currNode.value != _value) {
             prevNode = currNode;
             currNode = currNode.next;
@@ -65,17 +70,10 @@ public class LinkedList
         if (currNode == null)
             return false;
 
-        if (currNode == this.head) {
-            this.head = currNode.next;
-        } else {
-            prevNode.next = currNode.next;
-        }
-
-        if (tail == currNode) {
-            tail = prevNode;
-        }
+        prevNode.next = currNode.next;
 
         return true;
+
     }
 
     public void removeAll(int _value) {
@@ -97,7 +95,6 @@ public class LinkedList
                 node = node.next;
             }
         }
-
 
     }
 
