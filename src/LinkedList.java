@@ -54,26 +54,36 @@ public class LinkedList
         if(this.head == null)
             return false;
 
-        Node currNode = this.head;
-        Node prevNode = null;
+        Node node = this.head;
+        Node prev = null;
 
-        if(currNode != null && currNode.value == _value){
-            head = currNode.next;
+        //If HEAD
+        if(node.value == _value){
+            if(node.next == null){
+                this.head = node.next;
+                this.tail = node.next;
+            } else {
+                this.head = node.next;
+            }
             return true;
         }
 
-        while (currNode != null && currNode.value != _value) {
-            prevNode = currNode;
-            currNode = currNode.next;
+        //Otherwise
+        while (node != null) {
+
+            if(node.value == _value){
+                if(node.next == null){
+                    this.tail = prev;
+                    prev.next = node.next;
+                }else{
+                    prev.next = node.next;
+                }
+            }
+            prev = node;
+            node = node.next;
         }
 
-        if (currNode == null)
-            return false;
-
-        prevNode.next = currNode.next;
-
         return true;
-
     }
 
     public void removeAll(int _value) {
@@ -81,19 +91,31 @@ public class LinkedList
         if (this.head == null)
             return;
 
+
+
         while (head != null && head.value == _value) {
-            head = head.next;
+            if(head.next == null){
+                this.head = head.next;
+                this.tail = head.next;
+            } else {
+                head = head.next;
+            }
         }
 
         Node node = head;
-        while (node != null && node.next != null) {
-            if (node.next.value == _value) {
-                node.next = node.next.next;
-                if(node.next == null)
-                    this.tail = node;
-            } else {
-                node = node.next;
+        Node prev = null;
+
+        while (node != null) {
+            if(node.value == _value){
+                if(node.next == null){
+                    this.tail = prev;
+                    prev.next = node.next;
+                }else{
+                    prev.next = node.next;
+                }
             }
+            prev = node;
+            node = node.next;
         }
     }
 

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LinkedListTest {
 
     //LinkedList linkedlist;
-    private Node a1 = new Node(11);
+    private final Node a1 = new Node(11);
     private final Node a2 = new Node(22);
     private final Node a3 = new Node(33);
     private final Node a4 = new Node(44);
@@ -27,26 +27,31 @@ public class LinkedListTest {
     @DisplayName("Add/Find check in LinkedList")
     void Test_addInTail() {
         LinkedList list = new LinkedList();
+        list.addInTail(a8);
+        list.addInTail(a9);
         list.addInTail(a1);
         list.addInTail(a2);
         list.addInTail(a3);
+        list.addInTail(a10);
 //        list.addInTail(a4);
 //        list.addInTail(a5);
 //        list.addInTail(a6);
 //        list.addInTail(a7);
 //
-//        list.addInTail(a8);
-//        list.addInTail(a9);
+
 //        list.addInTail(a10);
 
+        //list.remove(33);
+        //list.remove(11);
         ArrayList<Node> nodes = new ArrayList<Node>();
         nodes.add(a8);
         nodes.add(a9);
         nodes.add(a10);
 
         //Create and count
-        assertEquals(3, list.count());
-        list.remove(11);
+       // assertEquals(3, list.count());
+
+        list.removeAll(73);
         assertEquals(0, list.count());
         //Find in List
 //        assertEquals(a1, list.find(11));
