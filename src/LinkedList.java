@@ -95,7 +95,6 @@ public class LinkedList
                 node = node.next;
             }
         }
-
     }
 
     public void clear()
