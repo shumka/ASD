@@ -80,8 +80,8 @@ public class LinkedListTest {
         //assertEquals(nodes, list.findAll(73));
 
 //        //Clear
-//        list.clear();
-//        assertEquals(0, list.count());
+        list.clear();
+        assertEquals(0, list.count());
 
     }
 
