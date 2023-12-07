@@ -71,6 +71,10 @@ public class LinkedList
             prevNode.next = currNode.next;
         }
 
+        if (tail == currNode) {
+            tail = prevNode;
+        }
+
         return true;
     }
 
@@ -87,16 +91,19 @@ public class LinkedList
         while (node != null && node.next != null) {
             if (node.next.value == _value) {
                 node.next = node.next.next;
+                if(node.next == null)
+                    this.tail = node;
             } else {
                 node = node.next;
             }
         }
 
+
     }
 
     public void clear()
     {
-        head = null;
+        this.head = null;
     }
 
     public int count()
@@ -114,18 +121,20 @@ public class LinkedList
     {
 
         if(_nodeAfter == null){
-            _nodeToInsert.next = head;
-            head = _nodeToInsert;
+            _nodeToInsert.next = this.head;
+            this.head = _nodeToInsert;
             return;
         }
 
         if (_nodeAfter.next == null) {
             _nodeAfter.next = _nodeToInsert;
+            this.tail = _nodeToInsert;
         } else {
             Node oldNext = _nodeAfter.next;
             _nodeToInsert.next = oldNext;
             _nodeAfter.next = _nodeToInsert;
         }
+
     }
 }
 class Node

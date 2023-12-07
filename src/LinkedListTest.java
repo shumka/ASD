@@ -27,54 +27,54 @@ public class LinkedListTest {
     @DisplayName("Add/Find check in LinkedList")
     void Test_addInTail() {
         LinkedList list = new LinkedList();
-//        list.addInTail(a1);
-//        list.addInTail(a2);
-//        list.addInTail(a3);
-//        list.addInTail(a4);
-//        list.addInTail(a5);
-//        list.addInTail(a6);
-//        list.addInTail(a7);
-//
-//        list.addInTail(a8);
-//        list.addInTail(a9);
-//        list.addInTail(a10);
+        list.addInTail(a1);
+        list.addInTail(a2);
+        list.addInTail(a3);
+        list.addInTail(a4);
+        list.addInTail(a5);
+        list.addInTail(a6);
+        list.addInTail(a7);
+
+        list.addInTail(a8);
+        list.addInTail(a9);
+        list.addInTail(a10);
 
         ArrayList<Node> nodes = new ArrayList<Node>();
-        nodes.add(a1);
-//        nodes.add(a9);
-//        nodes.add(a10);
+        nodes.add(a8);
+        nodes.add(a9);
+        nodes.add(a10);
 
         //Create and count
-        assertEquals(0, list.count());
+        assertEquals(10, list.count());
 
         //Find in List
-        assertEquals(null, list.find(11));
-//        assertEquals(a2, list.find(22));
-//        assertEquals(a3, list.find(33));
-//        assertEquals(a4, list.find(44));
-//        assertEquals(a5, list.find(55));
-//        assertEquals(a6, list.find(66));
-//        assertEquals(a7, list.find(77));
+        assertEquals(a1, list.find(11));
+        assertEquals(a2, list.find(22));
+        assertEquals(a3, list.find(33));
+        assertEquals(a4, list.find(44));
+        assertEquals(a5, list.find(55));
+        assertEquals(a6, list.find(66));
+        assertEquals(a7, list.find(77));
 
         //FindAll
-        assertEquals(null, list.findAll(11));
+        assertEquals(nodes, list.findAll(73));
 
         //InserAfter
         list.insertAfter(null,a11);
-        list.insertAfter(null,a12);
-        assertEquals(2, list.count());
+        list.insertAfter(a10,a12);
+        assertEquals(12, list.count());
         assertEquals(a11, list.find(222));
         assertEquals(a12, list.find(333));
 
         //remove
         list.remove(333);
-        assertEquals(1, list.count());
+        assertEquals(11, list.count());
 
         //assertEquals(a7, list.find(77));
 
         //RemoveAll
-        list.removeAll(222);
-        assertEquals(0, list.count());
+        list.removeAll(73);
+        assertEquals(8, list.count());
         //assertEquals(a8, list.find(73));
 
         //assertEquals(nodes, list.findAll(73));
