@@ -92,8 +92,7 @@ public class LinkedList
 
         while (head != null && head.value == _value) {
             if(head.next == null){
-                this.head = head.next;
-                this.tail = head.next;
+                clear();
             } else {
                 head = head.next;
             }

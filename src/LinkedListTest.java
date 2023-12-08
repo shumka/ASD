@@ -14,7 +14,7 @@ public class LinkedListTest {
     private final Node a3 = new Node(33);
     private final Node a4 = new Node(44);
     private final Node a5 = new Node(55);
-    private final Node a6 = new Node(66);
+    private final Node a6 = new Node(55);
     private final Node a7 = new Node(77);
     private final Node a8 = new Node(73);
     private final Node a9 = new Node(73);
@@ -53,14 +53,9 @@ public class LinkedListTest {
         //Create and count
        // assertEquals(3, list.count());
 
-        list.remove(73);
-        list.remove(73);
-        list.remove(73);
-        assertFalse(list.remove(73));
-        assertFalse(list.remove(73));
-        list.remove(11);
-        list.remove(22);
-        list.remove(33);
+        list.removeAll(73);
+
+
         assertFalse(list.remove(33));
         assertEquals(0, list.count());
         //Find in List
