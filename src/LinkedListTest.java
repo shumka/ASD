@@ -3,8 +3,7 @@ import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTest {
 
@@ -19,7 +18,7 @@ public class LinkedListTest {
     private final Node a8 = new Node(73);
     private final Node a9 = new Node(73);
     private final Node a10 = new Node(73);
-
+    private final Node a111 = new Node(733);
     private final Node a11 = new Node(222);
 
     private final Node a12 = new Node(333);
@@ -29,12 +28,17 @@ public class LinkedListTest {
     @DisplayName("Add/Find check in LinkedList")
     void Test_addInTail() {
         LinkedList list = new LinkedList();
-        list.addInTail(a8);
-        list.addInTail(a9);
+
+//
         list.addInTail(a1);
-        list.addInTail(a2);
-        list.addInTail(a3);
-        list.addInTail(a10);
+//        list.addInTail(a9);
+//        list.addInTail(a2);
+//        list.addInTail(a8);
+//        list.addInTail(a10);
+//        list.addInTail(a6);
+//        list.addInTail(a111);
+//        list.addInTail(a3);
+//
 //        list.addInTail(a4);
 //        list.addInTail(a5);
 //        list.addInTail(a6);
@@ -53,8 +57,15 @@ public class LinkedListTest {
         //Create and count
        // assertEquals(3, list.count());
 
-        list.removeAll(73);
+//        assertTrue(list.remove(73));
+//        assertTrue(list.remove(55));
+//        assertTrue(list.remove(733));
 
+
+//        list.removeAll(73);
+
+        list.insertAfter(null,a11);
+        list.insertAfter(a1,a3);
 
         assertFalse(list.remove(33));
         assertEquals(0, list.count());

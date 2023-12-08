@@ -57,32 +57,24 @@ public class LinkedList
         Node node = this.head;
         Node prev = null;
 
-        //If HEAD
-        if(node.value == _value) {
-            if (node.next == null) {
-                this.head = node.next;
-                this.tail = node.next;
-            } else {
-                this.head = node.next;
-            }
+        if (node != null && node.value == _value) {
+            this.head = node.next;
+            if (this.head == null) this.tail = null;
             return true;
         }
-            while (node != null) {
-                if(node.value == _value){
-                    if(node.next == null){
-                        this.tail = prev;
-                        prev.next = node.next;
-                        return true;
-                    }else{
-                        prev.next = node.next;
-                        return true;
-                    }
-                }
-                prev = node;
-                node = node.next;
-            }
 
-            return false;
+        while (node != null && node.value != _value) {
+            prev = node;
+            node = node.next;
+        }
+
+        if (node == null) return false;
+
+        prev.next = node.next;
+
+        if (prev.next == null) tail = prev;
+
+        return true;
     }
 
     public void removeAll(int _value) {
@@ -90,29 +82,26 @@ public class LinkedList
         if (this.head == null)
             return;
 
-        while (head != null && head.value == _value) {
-            if(head.next == null){
-                clear();
-            } else {
-                head = head.next;
-            }
-        }
-
         Node node = head;
         Node prev = null;
 
-        while (node != null) {
-            if(node.value == _value){
-                if(node.next == null){
-                    this.tail = prev;
-                    prev.next = node.next;
-                }else{
-                    prev.next = node.next;
-                }
-            }
-            prev = node;
-            node = node.next;
+        while (node != null && node.value == _value) {
+            this.head = node.next;
+            if (this.head == null) this.tail = null;
+            node = this.head;
         }
+
+        while (node != null) {
+            while (node != null && node.value != _value) {
+                prev = node;
+                node = node.next;
+            }
+            if (node == null) return;
+            prev.next = node.next;
+            if (prev.next == null) tail = prev;
+            node = prev.next;
+        }
+
     }
 
     public void clear()
@@ -134,22 +123,15 @@ public class LinkedList
 
     public void insertAfter(Node _nodeAfter, Node _nodeToInsert)
     {
-
-        if(_nodeAfter == null){
-            _nodeToInsert.next = this.head;
-            this.head = _nodeToInsert;
-            return;
-        }
-
-        if (_nodeAfter.next == null) {
-            _nodeAfter.next = _nodeToInsert;
-            this.tail = _nodeToInsert;
+        if (_nodeAfter == null) {
+            _nodeToInsert.next = head;
+            head = _nodeToInsert;
+            if (head.next == null) tail = head;
         } else {
-            Node oldNext = _nodeAfter.next;
-            _nodeToInsert.next = oldNext;
+            _nodeToInsert.next = _nodeAfter.next;
             _nodeAfter.next = _nodeToInsert;
+            if (_nodeToInsert.next == null) tail = _nodeToInsert;
         }
-
     }
 }
 class Node
