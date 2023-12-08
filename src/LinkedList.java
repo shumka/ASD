@@ -58,8 +58,8 @@ public class LinkedList
         Node prev = null;
 
         //If HEAD
-        if(node.value == _value){
-            if(node.next == null){
+        if(node.value == _value) {
+            if (node.next == null) {
                 this.head = node.next;
                 this.tail = node.next;
             } else {
@@ -67,31 +67,28 @@ public class LinkedList
             }
             return true;
         }
-
-        //Otherwise
-        while (node != null) {
-
-            if(node.value == _value){
-                if(node.next == null){
-                    this.tail = prev;
-                    prev.next = node.next;
-                }else{
-                    prev.next = node.next;
+            while (node != null) {
+                if(node.value == _value){
+                    if(node.next == null){
+                        this.tail = prev;
+                        prev.next = node.next;
+                        return true;
+                    }else{
+                        prev.next = node.next;
+                        return true;
+                    }
                 }
+                prev = node;
+                node = node.next;
             }
-            prev = node;
-            node = node.next;
-        }
 
-        return true;
+            return false;
     }
 
     public void removeAll(int _value) {
 
         if (this.head == null)
             return;
-
-
 
         while (head != null && head.value == _value) {
             if(head.next == null){

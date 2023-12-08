@@ -3,6 +3,7 @@ import org.junit.jupiter.api.DisplayName;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class LinkedListTest {
 
@@ -51,7 +52,15 @@ public class LinkedListTest {
         //Create and count
        // assertEquals(3, list.count());
 
-        list.removeAll(73);
+        list.remove(73);
+        list.remove(73);
+        list.remove(73);
+        assertFalse(list.remove(73));
+        assertFalse(list.remove(73));
+        list.remove(11);
+        list.remove(22);
+        list.remove(33);
+        assertFalse(list.remove(33));
         assertEquals(0, list.count());
         //Find in List
 //        assertEquals(a1, list.find(11));
