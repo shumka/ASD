@@ -20,9 +20,6 @@ public class LinkedList
     }
 
     public Node find(int value) {
-        if (this.head == null)
-            return null;
-
         Node node = this.head;
         while (node != null) {
             if (node.value == value)
@@ -33,16 +30,13 @@ public class LinkedList
     }
 
     public ArrayList<Node> findAll(int _value) {
-
-        if (this.head == null)
-            return null;
-
         ArrayList<Node> nodes = new ArrayList<Node>();
 
         Node node = this.head;
         while (node != null) {
-            if (node.value == _value)
+            if (node.value == _value){
                 nodes.add(node);
+            }
             node = node.next;
         }
 

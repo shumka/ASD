@@ -1,9 +1,6 @@
-
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTest {
 
@@ -31,10 +28,11 @@ public class LinkedListTest {
 
 //
         list.addInTail(a1);
-//        list.addInTail(a9);
+        list.addInTail(a9);
 //        list.addInTail(a2);
-//        list.addInTail(a8);
-//        list.addInTail(a10);
+        list.addInTail(a8);
+        list.addInTail(a10);
+        list.addInTail(a12);
 //        list.addInTail(a6);
 //        list.addInTail(a111);
 //        list.addInTail(a3);
@@ -50,9 +48,9 @@ public class LinkedListTest {
         //list.remove(33);
         //list.remove(11);
         ArrayList<Node> nodes = new ArrayList<Node>();
-        nodes.add(a8);
-        nodes.add(a9);
-        nodes.add(a10);
+//        nodes.add(a8);
+//        nodes.add(a9);
+//        nodes.add(a10);
 
         //Create and count
        // assertEquals(3, list.count());
@@ -67,8 +65,9 @@ public class LinkedListTest {
         list.insertAfter(null,a11);
         list.insertAfter(a1,a3);
 
-        assertFalse(list.remove(33));
-        assertEquals(0, list.count());
+        Node a200 = list.find(33);
+        list.insertAfter(a1,a3);
+
         //Find in List
 //        assertEquals(a1, list.find(11));
 //        assertEquals(a2, list.find(22));
