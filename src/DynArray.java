@@ -35,7 +35,7 @@ public class DynArray<T>
 
     public T getItem(int index)
     {
-        if ((index < count) && (index >=0)) //проверка индекса
+        if ((index < count) && (index >=0))
             return array[index];
         else
             return  null;
@@ -43,7 +43,7 @@ public class DynArray<T>
 
     public void append(T itm)
     {
-        if (count == capacity){              //если массив заполнен
+        if (count == capacity){
             makeArray(capacity * 2);
         }
         array[count] = itm;
@@ -57,26 +57,26 @@ public class DynArray<T>
             throw new IndexOutOfBoundsException("Попытка вставки элемента в недопустимую позицию");
         }
 
-        if (count == capacity) {                            //если массив полностью заполнен
+        if (count == capacity) {
             makeArray(capacity * 2);
         }
 
-        for (int i = count; i > index; i--) {              //смещение элементов
+        for (int i = count; i > index; i--) {
             array[i] = array[i - 1];
         }
 
-        array[index] = itm;                                //вставка
+        array[index] = itm;
         count++;
     }
 
     public void remove(int index)
     {
-        if ((index >= count) || (index < 0))               //проверка индекса
+        if ((index >= count) || (index < 0))
         {
             throw new IndexOutOfBoundsException("Попытка удаления элемента в недопустимой позиции");
         }
 
-        for (int i = index; i < (count - 1); i++) {        //удаление
+        for (int i = index; i < (count - 1); i++) {
             array[i] = array[i + 1];
         }
         count--;
