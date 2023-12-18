@@ -52,7 +52,7 @@ public class DynArray<T>
 
     public void insert(T itm, int index)
     {
-        if ((index > count) || (index < 0))  //проверка индекса
+        if ((index > count) || (index < 0))
         {
             throw new IndexOutOfBoundsException("Попытка вставки элемента в недопустимую позицию");
         }
