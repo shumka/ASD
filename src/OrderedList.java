@@ -22,8 +22,15 @@ public class OrderedList<T extends Comparable<T>> {
     }
 
     public int compare(T v1, T v2) {
-        return v1.compareTo(v2);
+            if (v1 instanceof Integer && v2 instanceof Integer) {
+                return Integer.compare((Integer) v1, (Integer) v2);
+            } else if (v1 instanceof String && v2 instanceof String) {
+                return ((String) v1).compareTo((String) v2);
+            } else {
+                throw new IllegalArgumentException("Unsupported type");
+            }
     }
+
 
     public void add(T value) {
         Node<T> node = new Node<>(value);

@@ -23,8 +23,14 @@ class OrderedListTest {
         list.delete(7);
         list.add(7);
 
-
-
+        OrderedList<String> list2 = new OrderedList<>(true);
+        list2.add("aaa");
+        list2.add("aaas");
+        list2.add("a");
+        list2.add("aaabbbb");
+        list2.add("aaabbb");
+        list2.delete("a");
+        assertEquals(5, list.count());
 
     }
 
