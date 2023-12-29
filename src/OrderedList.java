@@ -33,85 +33,99 @@ public class OrderedList<T extends Comparable<T>> {
 
 
     public void add(T value) {
-        Node<T> node = new Node<>(value);
+        Node<T> newNode = new Node<>(value);
+
         if (head == null) {
-            head = tail = node;
-        } else if ((_ascending && compare(value, head.value) < 0) || (!_ascending && compare(value, head.value) > 0)) {
-            node.next = head;
-            head.prev = node;
-            head = node;
-        } else if ((_ascending && compare(value, tail.value) > 0) || (!_ascending && compare(value, tail.value) < 0)) {
-            node.prev = tail;
-            tail.next = node;
-            tail = node;
+            head = newNode;
+            tail = newNode;
         } else {
             Node<T> current = head;
-            while (current != null) {
-                if ((_ascending && compare(value, current.value) < 0) || (!_ascending && compare(value, current.value) > 0)) {
-                    node.next = current;
-                    node.prev = current.prev;
-                    current.prev.next = node;
-                    current.prev = node;
-                    break;
-                }
+            Node<T> prev = null;
+
+            while (current != null && ((_ascending && compare(current.value, value) < 0) ||  (!_ascending && compare(current.value, value) > 0))) {
+                prev = current;
                 current = current.next;
+            }
+
+            if (prev == null) {
+                newNode.next = head;
+                head.prev = newNode;
+                head = newNode;
+            } else if (current == null) {
+                prev.next = newNode;
+                newNode.prev = prev;
+                tail = newNode;
+            } else {
+                prev.next = newNode;
+                newNode.prev = prev;
+                newNode.next = current;
+                current.prev = newNode;
             }
         }
     }
 
     public Node<T> find(T val) {
         Node<T> current = head;
+
         while (current != null) {
-            if (compare(val, current.value) == 0) {
+            int cmp = compare(current.value, val);
+            if (cmp == 0) {
                 return current;
-            } else if ((_ascending && compare(val, current.value) < 0) || (!_ascending && compare(val, current.value) > 0)) {
-                return null;
+            } else if ((_ascending && cmp > 0) || (!_ascending && cmp < 0)) {
+                break;
             }
+
             current = current.next;
         }
+
         return null;
     }
 
     public void delete(T val) {
-        Node<T> node = find(val);
-        if (node != null) {
-            if (node.prev != null) {
-                node.prev.next = node.next;
+        Node<T> nodeToDelete = find(val);
+
+        if (nodeToDelete != null) {
+            if (nodeToDelete.prev != null) {
+                nodeToDelete.prev.next = nodeToDelete.next;
+            } else {
+                head = nodeToDelete.next;
             }
-            if (node.next != null) {
-                node.next.prev = node.prev;
-            }
-            if (node == head) {
-                head = node.next;
-            }
-            if (node == tail) {
-                tail = node.prev;
+
+            if (nodeToDelete.next != null) {
+                nodeToDelete.next.prev = nodeToDelete.prev;
+            } else {
+                tail = nodeToDelete.prev;
             }
         }
     }
 
     public void clear(boolean asc) {
-        head = tail = null;
         _ascending = asc;
+        head = null;
+        tail = null;
     }
 
     public int count() {
         int count = 0;
         Node<T> current = head;
+
         while (current != null) {
             count++;
             current = current.next;
         }
+
         return count;
     }
 
     ArrayList<Node<T>> getAll() {
-        ArrayList<Node<T>> r = new ArrayList<>();
-        Node<T> node = head;
-        while (node != null) {
-            r.add(node);
-            node = node.next;
+        ArrayList<Node<T>> result = new ArrayList<>();
+        Node<T> current = head;
+
+        while (current != null) {
+            result.add(current);
+            current = current.next;
         }
-        return r;
+
+        return result;
     }
 }

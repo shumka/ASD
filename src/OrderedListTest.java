@@ -30,7 +30,7 @@ class OrderedListTest {
         list2.add("aaabbbb");
         list2.add("aaabbb");
         list2.delete("a");
-        assertEquals(5, list.count());
+        assertEquals(5, list2.count());
 
     }
 
