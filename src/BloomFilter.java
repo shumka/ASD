@@ -1,10 +1,10 @@
 public class BloomFilter {
     private int filter_len;
-    private int[] bitArray;
+    private int bitArray;
 
     public BloomFilter(int f_len) {
         filter_len = f_len;
-        bitArray = new int[f_len];
+        bitArray = 0;
     }
 
     // хэш-функции
@@ -30,14 +30,22 @@ public class BloomFilter {
         int hash1 = hash1(str1);
         int hash2 = hash2(str1);
 
-        bitArray[hash1] = 1;
-        bitArray[hash2] = 1;
+        setBit(hash1);
+        setBit(hash2);
     }
 
     public boolean isValue(String str1) {
         int hash1 = hash1(str1);
         int hash2 = hash2(str1);
 
-        return bitArray[hash1] == 1 && bitArray[hash2] == 1;
+        return getBit(hash1) && getBit(hash2);
+    }
+
+    private void setBit(int index) {
+        bitArray = bitArray | (1 << index);
+    }
+
+    private boolean getBit(int index) {
+        return (bitArray & (1 << index)) != 0;
     }
 }
