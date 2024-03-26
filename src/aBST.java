@@ -2,45 +2,42 @@ import java.util.*;
 
 class aBST {
     public Integer Tree[]; // массив ключей
-    private int depth;
 
     public aBST(int depth) {
-        this.depth = depth;
-        // правильно рассчитаем размер массива для дерева глубины depth:
-        int tree_size = (int) Math.pow(2, depth + 1) - 1;
+        // правильно рассчитайте размер массива для дерева глубины depth:
+        int tree_size = (int) Math.pow(2, depth + 1) - 1; // 2^(depth+1) - 1
         Tree = new Integer[tree_size];
-        Arrays.fill(Tree, null);
+        Arrays.fill(Tree, null); // Initialize all elements to null
     }
 
     public Integer FindKeyIndex(int key) {
-        int index = 0;
-        while (index < Tree.length) {
-            if (Tree[index] == null)
-                return null; // не найден
-            if (Tree[index] == key)
-                return index; // найден
-            if (key < Tree[index])
-                index = 2 * index + 1; // двигаемся влево
-            else
-                index = 2 * index + 2; // двигаемся вправо
+        int currentIndex = 0; // Start at the root
+        while (currentIndex < Tree.length) {
+            Integer currentValue = Tree[currentIndex];
+            if (currentValue == null) {
+                return -currentIndex - 1; // Found an empty slot
+            } else if (key == currentValue) {
+                return currentIndex; // Key found
+            } else if (key < currentValue) {
+                currentIndex = 2 * currentIndex + 1; // Go to left child
+            } else {
+                currentIndex = 2 * currentIndex + 2; // Go to right child
+            }
         }
-        return null; // не найден
+        return null; // Key not found and no empty slots
     }
 
     public int AddKey(int key) {
-        int index = 0;
-        while (index < Tree.length) {
-            if (Tree[index] == null) {
-                Tree[index] = key;
-                return -index; // отрицательное значение индекса, если добавлено в пустой слот
-            }
-            if (Tree[index] == key)
-                return index; // ключ уже существует
-            if (key < Tree[index])
-                index = 2 * index + 1; // двигаемся влево
-            else
-                index = 2 * index + 2; // двигаемся вправо
+        // добавляем ключ в массив
+        int index = FindKeyIndex(key);
+        if (index >= 0) {
+            return index; // Key already exists
+        } else if (index < 0) {
+            index = -index - 1; // Convert negative index to actual index
+            Tree[index] = key;
+            return index; // Key added successfully
+        } else {
+            return -1; // Tree is full
         }
-        return -1; // не удалось добавить, дерево заполнено
     }
 }
