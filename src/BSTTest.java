@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+
 
 class BSTTest {
 
@@ -33,10 +35,10 @@ class BSTTest {
         bst.AddKeyValue(5, "Value for 5");
         bst.AddKeyValue(15, "Value for 15");
 
-        BSTNode<String> minNode = bst.FindMinMax(bst.Root, false);
+        BSTNode<String> minNode = bst.FinMinMax(bst.Root, false);
         assertEquals(5, minNode.NodeKey);
 
-        BSTNode<String> maxNode = bst.FindMinMax(bst.Root, true);
+        BSTNode<String> maxNode = bst.FinMinMax(bst.Root, true);
         assertEquals(15, maxNode.NodeKey);
     }
 
@@ -62,6 +64,45 @@ class BSTTest {
         bst.AddKeyValue(15, 15);
 
         assertEquals(3, bst.Count());
+    }
+
+
+    @Test
+    public void testWideAllNodes() {
+        BST<Integer> bst = new BST<>(new BSTNode<>(5, 50, null));
+        bst.AddKeyValue(3, 30);
+        bst.AddKeyValue(8, 80);
+        ArrayList<BSTNode> wideNodes = bst.WideAllNodes();
+        assertEquals(3, wideNodes.size());
+        assertEquals(5, wideNodes.get(0).NodeKey);
+        assertEquals(3, wideNodes.get(1).NodeKey);
+        assertEquals(8, wideNodes.get(2).NodeKey);
+    }
+
+
+    @Test
+    public void testDeepAllNodes() {
+        BST<Integer> bst = new BST<>(new BSTNode<>(5, 50, null));
+        bst.AddKeyValue(3, 30);
+        bst.AddKeyValue(8, 80);
+
+        ArrayList<BSTNode> inOrderNodes = bst.DeepAllNodes(0);
+        assertEquals(3, inOrderNodes.size());
+        assertEquals(3, inOrderNodes.get(0).NodeKey);
+        assertEquals(5, inOrderNodes.get(1).NodeKey);
+        assertEquals(8, inOrderNodes.get(2).NodeKey);
+
+        ArrayList<BSTNode> postOrderNodes = bst.DeepAllNodes(1);
+        assertEquals(3, postOrderNodes.size());
+        assertEquals(3, postOrderNodes.get(0).NodeKey);
+        assertEquals(8, postOrderNodes.get(1).NodeKey);
+        assertEquals(5, postOrderNodes.get(2).NodeKey);
+
+        ArrayList<BSTNode> preOrderNodes = bst.DeepAllNodes(2);
+        assertEquals(3, preOrderNodes.size());
+        assertEquals(5, preOrderNodes.get(0).NodeKey);
+        assertEquals(3, preOrderNodes.get(1).NodeKey);
+        assertEquals(8, preOrderNodes.get(2).NodeKey);
     }
 
 }

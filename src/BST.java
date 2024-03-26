@@ -94,7 +94,7 @@ class BST<T>
         return true;
     }
 
-    public BSTNode<T> FindMinMax(BSTNode<T> FromNode, boolean FindMax) {
+    public BSTNode<T> FinMinMax(BSTNode<T> FromNode, boolean FindMax) {
         if (FromNode == null)
             return null; // Если поддерево пустое
 
@@ -121,7 +121,7 @@ class BST<T>
                 nodeToDelete.Parent.RightChild = null; // Узел - правый потомок
         } else if (nodeToDelete.LeftChild != null && nodeToDelete.RightChild != null) {
             // У узла есть оба потомка
-            BSTNode<T> successor = FindMinMax(nodeToDelete.RightChild, false);
+            BSTNode<T> successor = FinMinMax(nodeToDelete.RightChild, false);
             nodeToDelete.NodeKey = successor.NodeKey;
             nodeToDelete.NodeValue = successor.NodeValue;
             if (successor.Parent.LeftChild == successor)
@@ -151,6 +151,79 @@ class BST<T>
         if (node == null)
             return 0;
         return 1 + CountNodes(node.LeftChild) + CountNodes(node.RightChild);
+    }
+
+
+    public ArrayList<BSTNode> WideAllNodes() {
+        ArrayList<BSTNode> result = new ArrayList<>();
+        if (Root == null) {
+            return result; // Empty tree
+        }
+
+        Queue<BSTNode> queue = new LinkedList<>();
+        queue.offer(Root);
+
+        while (!queue.isEmpty()) {
+            BSTNode current = queue.poll();
+            result.add(current);
+
+            if (current.LeftChild != null) {
+                queue.offer(current.LeftChild);
+            }
+            if (current.RightChild != null) {
+                queue.offer(current.RightChild);
+            }
+        }
+
+        return result;
+    }
+
+
+    public ArrayList<BSTNode> DeepAllNodes(int order) {
+        ArrayList<BSTNode> result = new ArrayList<>();
+        if (Root == null) {
+            return result; // Empty tree
+        }
+
+        switch (order) {
+            case 0: // In-order
+                inOrderTraversal(Root, result);
+                break;
+            case 1: // Post-order
+                postOrderTraversal(Root, result);
+                break;
+            case 2: // Pre-order
+                preOrderTraversal(Root, result);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid order value.");
+        }
+
+        return result;
+    }
+
+    private void inOrderTraversal(BSTNode node, ArrayList<BSTNode> list) {
+        if (node != null) {
+            inOrderTraversal(node.LeftChild, list);
+            list.add(node);
+            inOrderTraversal(node.RightChild, list);
+        }
+    }
+
+    private void postOrderTraversal(BSTNode node, ArrayList<BSTNode> list) {
+        if (node != null) {
+            postOrderTraversal(node.LeftChild, list);
+            postOrderTraversal(node.RightChild, list);
+            list.add(node);
+        }
+    }
+
+    private void preOrderTraversal(BSTNode node, ArrayList<BSTNode> list) {
+        if (node != null) {
+            list.add(node);
+            preOrderTraversal(node.LeftChild, list);
+            preOrderTraversal(node.RightChild, list);
+        }
     }
 
 }
