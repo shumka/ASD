@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 class BSTNode<T>
 {
     public int NodeKey; // ключ узла
@@ -140,13 +143,31 @@ class BST<T>
 
     public int Count()
     {
-        return CountNodes(Root);
+        int count = 0;
+        BSTNode<T> current = Root;
+        Stack<BSTNode<T>> stack = new Stack<>();
+
+        // Traverse the tree iteratively
+        while (current != null || !stack.isEmpty()) {
+            // Reach the left most Node of the current Node
+            while (current != null) {
+                // Place pointer to a tree node on the stack
+                // before traversing the node's left subtree
+                stack.push(current);
+                current = current.LeftChild;
+            }
+
+            // Current must be null at this point
+            current = stack.pop();
+            count++; // Count the node
+
+            // We have visited the node and its left subtree.
+            // Now, it's right subtree's turn
+            current = current.RightChild;
+        }
+
+        return count;
     }
 
-    private int CountNodes(BSTNode<T> node) {
-        if (node == null)
-            return 0;
-        return 1 + CountNodes(node.LeftChild) + CountNodes(node.RightChild);
-    }
 
 }
