@@ -14,7 +14,7 @@ public class AlgorithmsDataStructures2 {
 
         return bstArray;
     }
-
+12123
     private static void buildBST(int[] sortedArray, int[] bstArray, int start, int end, int index) {
         if (start > end) {
             return; // Base case: no elements in this subtree
