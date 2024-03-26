@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 
+
 class BSTNode<T>
 {
     public int NodeKey; // ключ узла
@@ -93,7 +94,7 @@ class BST<T>
         return true;
     }
 
-    public BSTNode<T> FindMinMax(BSTNode<T> FromNode, boolean FindMax) {
+    public BSTNode<T> FinMinMax(BSTNode<T> FromNode, boolean FindMax) {
         if (FromNode == null)
             return null; // Если поддерево пустое
 
@@ -120,7 +121,7 @@ class BST<T>
                 nodeToDelete.Parent.RightChild = null; // Узел - правый потомок
         } else if (nodeToDelete.LeftChild != null && nodeToDelete.RightChild != null) {
             // У узла есть оба потомка
-            BSTNode<T> successor = FindMinMax(nodeToDelete.RightChild, false);
+            BSTNode<T> successor = FinMinMax(nodeToDelete.RightChild, false);
             nodeToDelete.NodeKey = successor.NodeKey;
             nodeToDelete.NodeValue = successor.NodeValue;
             if (successor.Parent.LeftChild == successor)
@@ -143,31 +144,13 @@ class BST<T>
 
     public int Count()
     {
-        int count = 0;
-        BSTNode<T> current = Root;
-        Stack<BSTNode<T>> stack = new Stack<>();
-
-        // Traverse the tree iteratively
-        while (current != null || !stack.isEmpty()) {
-            // Reach the left most Node of the current Node
-            while (current != null) {
-                // Place pointer to a tree node on the stack
-                // before traversing the node's left subtree
-                stack.push(current);
-                current = current.LeftChild;
-            }
-
-            // Current must be null at this point
-            current = stack.pop();
-            count++; // Count the node
-
-            // We have visited the node and its left subtree.
-            // Now, it's right subtree's turn
-            current = current.RightChild;
-        }
-
-        return count;
+        return CountNodes(Root);
     }
 
+    private int CountNodes(BSTNode<T> node) {
+        if (node == null)
+            return 0;
+        return 1 + CountNodes(node.LeftChild) + CountNodes(node.RightChild);
+    }
 
 }
