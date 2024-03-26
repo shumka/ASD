@@ -30,7 +30,7 @@ class aBST {
         while (index < Tree.length) {
             if (Tree[index] == null) {
                 Tree[index] = key;
-                return -index; // индекс добавленного ключа или -1 если не удалось
+                return index; // индекс добавленного ключа или -1 если не удалось
             } else if (Tree[index] == key) {
                 return index; // индекс существующего ключа
             } else if (key < Tree[index]) {
