@@ -8,9 +8,8 @@ class Heap {
     }
 
     public void MakeHeap(int[] a, int depth) {
-        // Вычисляем размер массива на основе глубины
-        int size = (int) Math.pow(2, depth) - 1;
-        HeapArray = new int[size];
+        // Вычисляем размер массива на основе количества элементов в a
+        HeapArray = new int[a.length];
         // Копируем элементы из входного массива в кучу
         System.arraycopy(a, 0, HeapArray, 0, a.length);
         // Просеиваем элементы, чтобы соблюсти свойства кучи
@@ -26,23 +25,23 @@ class Heap {
         int max = HeapArray[0];
         // Перемещаем последний элемент в корень и просеиваем его вниз
         HeapArray[0] = HeapArray[HeapArray.length - 1];
+        HeapArray = Arrays.copyOf(HeapArray, HeapArray.length - 1);
         siftDown(0);
         return max;
     }
 
     public boolean Add(int key) {
-        if (HeapArray == null || HeapArray.length == 0) {
-            return false; // Если куча не инициализирована или заполнена
+        if (HeapArray == null) {
+            HeapArray = new int[1];
+            HeapArray[0] = key;
+            return true;
         }
-        // Ищем первый свободный слот и добавляем новый элемент
-        for (int i = 0; i < HeapArray.length; i++) {
-            if (HeapArray[i] == 0) {
-                HeapArray[i] = key;
-                siftUp(i);
-                return true;
-            }
-        }
-        return false; // Если куча заполнена
+        // Увеличиваем размер массива на 1 и добавляем новый элемент в конец
+        HeapArray = Arrays.copyOf(HeapArray, HeapArray.length + 1);
+        HeapArray[HeapArray.length - 1] = key;
+        // Просеиваем новый элемент вверх
+        siftUp(HeapArray.length - 1);
+        return true;
     }
 
     private void siftDown(int index) {
