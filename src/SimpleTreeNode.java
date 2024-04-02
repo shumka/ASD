@@ -117,42 +117,29 @@ class SimpleTree<T>
 
     public ArrayList<T> EvenTrees() {
         ArrayList<T> result = new ArrayList<>();
-        HashMap<T, Integer> subTreeSizes = new HashMap<>();
-        countSubTreeSizes(Root, subTreeSizes);
-        int totalSize = Count();
-        if (totalSize % 2 == 1) {
-            return result; // Невозможно получить лес из чётных деревьев
-        }
-        HashSet<SimpleTreeNode<T>> removedNodes = new HashSet<>();
-        dfsEvenTrees(Root, null, subTreeSizes, totalSize, removedNodes, result);
+        dfs(Root, result);
         return result;
     }
 
-    private void countSubTreeSizes(SimpleTreeNode<T> node, HashMap<T, Integer> subTreeSizes) {
+    private int dfs(SimpleTreeNode<T> node, ArrayList<T> result) {
         if (node == null) {
-            return;
+            return 0;
         }
-        int size = 1;
-        for (SimpleTreeNode<T> child : node.Children) {
-            countSubTreeSizes(child, subTreeSizes);
-            size += subTreeSizes.get(child.NodeValue);
-        }
-        subTreeSizes.put(node.NodeValue, size);
-    }
 
-    private void dfsEvenTrees(SimpleTreeNode<T> node, SimpleTreeNode<T> parent, HashMap<T, Integer> subTreeSizes, int totalSize, HashSet<SimpleTreeNode<T>> removedNodes, ArrayList<T> result) {
-        if (node == null) {
-            return;
+        int count = 1;
+        if (node.Children != null) {
+            for (SimpleTreeNode<T> child : node.Children) {
+                int subtreeCount = dfs(child, result);
+                if (subtreeCount % 2 == 0) {
+                    result.add(child.NodeValue);
+                    result.add(node.NodeValue);
+                } else {
+                    count += subtreeCount;
+                }
+            }
         }
-        int sizeWithoutNode = totalSize - subTreeSizes.get(node.NodeValue) * 2;
-        if (sizeWithoutNode % 2 == 0 && !removedNodes.contains(node)) {
-            result.add(parent.NodeValue);
-            result.add(node.NodeValue);
-            removedNodes.add(node);
-        }
-        for (SimpleTreeNode<T> child : node.Children) {
-            dfsEvenTrees(child, node, subTreeSizes, totalSize, removedNodes, result);
-        }
+
+        return count;
     }
 
 
