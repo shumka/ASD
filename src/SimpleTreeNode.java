@@ -115,40 +115,62 @@ class SimpleTree<T>
         return count;
     }
 
-    public ArrayList<SimpleTreeNode<T>> EvenTrees() {
-        ArrayList<SimpleTreeNode<T>> result = new ArrayList<>();
-        dfs(Root, result);
+    public ArrayList<T> EvenTrees()
+    {
+        ArrayList<T> result = new ArrayList<>();
+        if (Root == null)
+            return result;
+
+        // Шаг 1. Подсчитаем количество вершин в каждом поддереве
+        Map<SimpleTreeNode<T>, Integer> subtreeSizes = new HashMap<>();
+        countSubtreeSizes(Root, subtreeSizes);
+
+        // Шаг 2. Найдем ребро для удаления в каждом нечетном поддереве
+        findOddSubtrees(Root, subtreeSizes, result);
+
         return result;
     }
 
-    private int dfs(SimpleTreeNode<T> node, ArrayList<SimpleTreeNode<T>> result) {
-        if (node == null) {
-            return 0;
-        }
+    private void countSubtreeSizes(SimpleTreeNode<T> node, Map<SimpleTreeNode<T>, Integer> subtreeSizes)
+    {
+        if (node == null)
+            return;
 
-        int count = 1; // Считаем текущую вершину
-
-        // Рекурсивно считаем количество вершин в поддеревьях
-        List<SimpleTreeNode<T>> childrenToRemove = new ArrayList<>();
+        int size = 1;
         for (SimpleTreeNode<T> child : node.Children) {
-            int childCount = dfs(child, result);
-            if (childCount % 2 == 0) { // Если поддерево чётное
-                result.add(node); // Добавляем текущую вершину в результат
-                result.add(child); // Добавляем наследника в результат
-                childrenToRemove.add(child); // Помечаем наследника для удаления
-            }
-            count += childCount;
+            countSubtreeSizes(child, subtreeSizes);
+            size += subtreeSizes.get(child);
         }
-
-        // Удаляем наследников, которые составляют чётное поддерево
-        for (SimpleTreeNode<T> childToRemove : childrenToRemove) {
-            node.Children.remove(childToRemove);
-            childToRemove.Parent = null;
-        }
-
-        return count;
+        subtreeSizes.put(node, size);
     }
 
+    private void findOddSubtrees(SimpleTreeNode<T> node, Map<SimpleTreeNode<T>, Integer> subtreeSizes, ArrayList<T> result)
+    {
+        if (node == null)
+            return;
+
+        int parentSize = node.Parent == null ? 0 : subtreeSizes.get(node.Parent) - subtreeSizes.get(node);
+        if ((parentSize + subtreeSizes.get(node)) % 2 == 1) {
+            // Найдено нечетное поддерево, ищем ребро для удаления
+            for (SimpleTreeNode<T> child : node.Children) {
+                if (subtreeSizes.get(child) % 2 == 1) {
+                    // Найдено ребро для удаления
+                    result.add(node.NodeValue);
+                    result.add(child.NodeValue);
+
+                    // Удаляем ребро и обновляем размеры поддеревьев
+                    DeleteNode(child);
+                    subtreeSizes.put(node, subtreeSizes.get(node) - subtreeSizes.get(child) - 1);
+                    subtreeSizes.put(child, 1);
+
+                    break;
+                }
+            }
+        }
+
+        for (SimpleTreeNode<T> child : node.Children)
+            findOddSubtrees(child, subtreeSizes, result);
+    }
 
 
 
