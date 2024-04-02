@@ -92,5 +92,39 @@ class SimpleGraph {
         return path; // Путь не найден
     }
 
+    public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
+        ArrayList<Vertex> path = new ArrayList<>();
+        boolean[] visited = new boolean[max_vertex];
+        int[] parent = new int[max_vertex];
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(VFrom);
+        visited[VFrom] = true;
+        parent[VFrom] = -1;
+
+        while (!queue.isEmpty()) {
+            int currentVertex = queue.poll();
+            if (currentVertex == VTo) {
+                // Восстанавливаем путь
+                int v = VTo;
+                while (v != -1) {
+                    path.add(vertex[v]);
+                    v = parent[v];
+                }
+                Collections.reverse(path);
+                return path;
+            }
+
+            for (int i = 0; i < max_vertex; i++) {
+                if (m_adjacency[currentVertex][i] == 1 && !visited[i]) {
+                    queue.add(i);
+                    visited[i] = true;
+                    parent[i] = currentVertex;
+                }
+            }
+        }
+
+        return path; // Путь не найден
+    }
 
 }
