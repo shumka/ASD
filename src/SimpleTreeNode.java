@@ -129,18 +129,29 @@ class SimpleTree<T>
         int count = 1; // Считаем текущую вершину
 
         // Рекурсивно считаем количество вершин в поддеревьях
+        List<SimpleTreeNode<T>> childrenToRemove = new ArrayList<>();
         for (SimpleTreeNode<T> child : node.Children) {
             int childCount = dfs(child, result);
-            if (childCount % 2 == 1) { // Если поддерево нечётное
+            if (childCount % 2 == 0) { // Если поддерево чётное
                 result.add(node); // Добавляем текущую вершину в результат
                 result.add(child); // Добавляем наследника в результат
-                child.Parent = null; // Удаляем ребро
-                child.Children = null; // Удаляем ребро
+                childrenToRemove.add(child); // Помечаем наследника для удаления
             }
             count += childCount;
         }
 
+        // Удаляем наследников, которые составляют чётное поддерево
+        for (SimpleTreeNode<T> childToRemove : childrenToRemove) {
+            node.Children.remove(childToRemove);
+            childToRemove.Parent = null;
+        }
+
         return count;
     }
+
+
+
+
+
 
 }
