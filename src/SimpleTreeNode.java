@@ -115,65 +115,45 @@ class SimpleTree<T>
         return count;
     }
 
-    public ArrayList<T> EvenTrees()
-    {
+    public ArrayList<T> EvenTrees() {
         ArrayList<T> result = new ArrayList<>();
-        if (Root == null)
-            return result;
-
-        // Шаг 1. Подсчитаем количество вершин в каждом поддереве
-        Map<SimpleTreeNode<T>, Integer> subtreeSizes = new HashMap<>();
-        countSubtreeSizes(Root, subtreeSizes);
-
-        // Шаг 2. Найдем ребро для удаления в каждом нечетном поддереве
-        findOddSubtrees(Root, subtreeSizes, result);
-
+        HashMap<T, Integer> subTreeSizes = new HashMap<>();
+        countSubTreeSizes(Root, subTreeSizes);
+        int totalSize = Count();
+        if (totalSize % 2 == 1) {
+            return result; // Невозможно получить лес из чётных деревьев
+        }
+        HashSet<SimpleTreeNode<T>> removedNodes = new HashSet<>();
+        dfsEvenTrees(Root, null, subTreeSizes, totalSize, removedNodes, result);
         return result;
     }
 
-    private void countSubtreeSizes(SimpleTreeNode<T> node, Map<SimpleTreeNode<T>, Integer> subtreeSizes)
-    {
-        if (node == null)
+    private void countSubTreeSizes(SimpleTreeNode<T> node, HashMap<T, Integer> subTreeSizes) {
+        if (node == null) {
             return;
-
+        }
         int size = 1;
         for (SimpleTreeNode<T> child : node.Children) {
-            countSubtreeSizes(child, subtreeSizes);
-            size += subtreeSizes.get(child);
+            countSubTreeSizes(child, subTreeSizes);
+            size += subTreeSizes.get(child.NodeValue);
         }
-        subtreeSizes.put(node, size);
+        subTreeSizes.put(node.NodeValue, size);
     }
 
-    private void findOddSubtrees(SimpleTreeNode<T> node, Map<SimpleTreeNode<T>, Integer> subtreeSizes, ArrayList<T> result)
-    {
-        if (node == null)
+    private void dfsEvenTrees(SimpleTreeNode<T> node, SimpleTreeNode<T> parent, HashMap<T, Integer> subTreeSizes, int totalSize, HashSet<SimpleTreeNode<T>> removedNodes, ArrayList<T> result) {
+        if (node == null) {
             return;
-
-        int parentSize = node.Parent == null ? 0 : subtreeSizes.get(node.Parent) - subtreeSizes.get(node);
-        if ((parentSize + subtreeSizes.get(node)) % 2 == 1) {
-            // Найдено нечетное поддерево, ищем ребро для удаления
-            for (SimpleTreeNode<T> child : node.Children) {
-                if (subtreeSizes.get(child) % 2 == 1) {
-                    // Найдено ребро для удаления
-                    result.add(node.NodeValue);
-                    result.add(child.NodeValue);
-
-                    // Удаляем ребро и обновляем размеры поддеревьев
-                    DeleteNode(child);
-                    subtreeSizes.put(node, subtreeSizes.get(node) - subtreeSizes.get(child) - 1);
-                    subtreeSizes.put(child, 1);
-
-                    break;
-                }
-            }
         }
-
-        for (SimpleTreeNode<T> child : node.Children)
-            findOddSubtrees(child, subtreeSizes, result);
+        int sizeWithoutNode = totalSize - subTreeSizes.get(node.NodeValue) * 2;
+        if (sizeWithoutNode % 2 == 0 && !removedNodes.contains(node)) {
+            result.add(parent.NodeValue);
+            result.add(node.NodeValue);
+            removedNodes.add(node);
+        }
+        for (SimpleTreeNode<T> child : node.Children) {
+            dfsEvenTrees(child, node, subTreeSizes, totalSize, removedNodes, result);
+        }
     }
-
-
-
 
 
 }
