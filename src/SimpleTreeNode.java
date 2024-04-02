@@ -115,4 +115,39 @@ class SimpleTree<T>
         return count;
     }
 
+    private int countNodes(SimpleTreeNode<T> node) {
+        int count = 1;
+        if (node.Children != null) {
+            for (SimpleTreeNode<T> child : node.Children) {
+                count += countNodes(child);
+            }
+        }
+        return count;
+    }
+
+    public List<SimpleTreeNode<T>> EvenTrees() {
+        List<SimpleTreeNode<T>> result = new ArrayList<>();
+        if (Root != null) {
+            Deque<SimpleTreeNode<T>> stack = new ArrayDeque<>();
+            stack.push(Root);
+            while (!stack.isEmpty()) {
+                SimpleTreeNode<T> current = stack.pop();
+                if (current.Children != null) {
+                    for (SimpleTreeNode<T> child : current.Children) {
+                        int childCount = countNodes(child);
+                        if (childCount % 2 != 0) {
+                            result.add(current);
+                            result.add(child);
+                            current.Children.remove(child);
+                            child.Parent = null;
+                        } else {
+                            stack.push(child);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
 }
