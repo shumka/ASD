@@ -111,36 +111,38 @@ class SimpleTree<T>
             else
                 queue.addAll(current.Children);
         }
-
         return count;
     }
 
     public ArrayList<T> EvenTrees() {
-        ArrayList<T> result = new ArrayList<>();
-        dfs(Root, result);
-        return result;
+        ArrayList<T> edgesToRemove = new ArrayList<>();
+        dfs(Root, null, edgesToRemove);
+        return edgesToRemove;
     }
 
-    private int dfs(SimpleTreeNode<T> node, ArrayList<T> result) {
-        if (node == null) {
-            return 0;
-        }
+    private int dfs(SimpleTreeNode<T> node, SimpleTreeNode<T> parent, ArrayList<T> edgesToRemove) {
+        int size = 1; // The current node is part of the subtree
 
-        int count = 1;
-        if (node.Children != null) {
+        // Traverse all children of the current node
+        if(node.Children != null) {
             for (SimpleTreeNode<T> child : node.Children) {
-                int subtreeCount = dfs(child, result);
-                if (subtreeCount % 2 == 0) {
-                    result.add(child.NodeValue);
-                    result.add(node.NodeValue);
+                int childSize = dfs(child, node, edgesToRemove);
+
+                // If the size of the subtree rooted at the child is even
+                if (childSize % 2 == 0) {
+                    edgesToRemove.add(child.Parent.NodeValue);
+                    edgesToRemove.add(child.NodeValue); // Add the edge to the list of edges to be removed
                 } else {
-                    count += subtreeCount;
+                    size += childSize; // Otherwise, add the size of the subtree to the current size
                 }
             }
         }
 
-        return count;
+        return size;
     }
+
+
+
 
 
 }

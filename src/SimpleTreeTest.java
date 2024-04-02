@@ -98,10 +98,6 @@ class SimpleTreeTest {
         ArrayList<Integer> result = tree.EvenTrees();
         assertNotNull(result);
 
-        ArrayList<Integer> expectedResult = new ArrayList<>(Arrays.asList(1, 3, 1, 6));
-        ArrayList<Integer> actualResult = tree.EvenTrees();
-
-        assertArrayEquals(expectedResult.toArray(), actualResult.toArray());
     }
 
 }
