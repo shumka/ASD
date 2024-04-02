@@ -58,31 +58,38 @@ class SimpleGraph {
     }
 
     public ArrayList<Vertex> DepthFirstSearch(int VFrom, int VTo) {
-        Stack<Vertex> stack = new Stack<>();
         ArrayList<Vertex> path = new ArrayList<>();
-        Vertex start = vertex[VFrom];
-        Vertex end = vertex[VTo];
+        boolean[] visited = new boolean[max_vertex];
+        int[] parent = new int[max_vertex];
 
-        if (start == null || end == null) return path;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(VFrom);
+        visited[VFrom] = true;
+        parent[VFrom] = -1;
 
-        stack.push(start);
         while (!stack.isEmpty()) {
-            Vertex current = stack.pop();
-            if (current == end) {
-                path.add(current);
+            int currentVertex = stack.pop();
+            if (currentVertex == VTo) {
+                // Восстанавливаем путь
+                int v = VTo;
+                while (v != -1) {
+                    path.add(vertex[v]);
+                    v = parent[v];
+                }
+                Collections.reverse(path);
                 return path;
             }
-            if (!current.Hit) {
-                current.Hit = true;
-                path.add(current);
-                for (int i = 0; i < max_vertex; i++) {
-                    if (m_adjacency[current.Value][i] == 1 && !vertex[i].Hit) {
-                        stack.push(vertex[i]);
-                    }
+
+            for (int i = 0; i < max_vertex; i++) {
+                if (m_adjacency[currentVertex][i] == 1 && !visited[i]) {
+                    stack.push(i);
+                    visited[i] = true;
+                    parent[i] = currentVertex;
                 }
             }
         }
-        return new ArrayList<>();
+
+        return path; // Путь не найден
     }
 
 
