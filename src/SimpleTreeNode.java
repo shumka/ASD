@@ -115,39 +115,32 @@ class SimpleTree<T>
         return count;
     }
 
-    private int countNodes(SimpleTreeNode<T> node) {
-        int count = 1;
-        if (node.Children != null) {
-            for (SimpleTreeNode<T> child : node.Children) {
-                count += countNodes(child);
-            }
-        }
-        return count;
+    public ArrayList<SimpleTreeNode<T>> EvenTrees() {
+        ArrayList<SimpleTreeNode<T>> result = new ArrayList<>();
+        dfs(Root, result);
+        return result;
     }
 
-    public List<SimpleTreeNode<T>> EvenTrees() {
-        List<SimpleTreeNode<T>> result = new ArrayList<>();
-        if (Root != null) {
-            Deque<SimpleTreeNode<T>> stack = new ArrayDeque<>();
-            stack.push(Root);
-            while (!stack.isEmpty()) {
-                SimpleTreeNode<T> current = stack.pop();
-                if (current.Children != null) {
-                    for (SimpleTreeNode<T> child : current.Children) {
-                        int childCount = countNodes(child);
-                        if (childCount % 2 != 0) {
-                            result.add(current);
-                            result.add(child);
-                            current.Children.remove(child);
-                            child.Parent = null;
-                        } else {
-                            stack.push(child);
-                        }
-                    }
-                }
-            }
+    private int dfs(SimpleTreeNode<T> node, ArrayList<SimpleTreeNode<T>> result) {
+        if (node == null) {
+            return 0;
         }
-        return result;
+
+        int count = 1; // Считаем текущую вершину
+
+        // Рекурсивно считаем количество вершин в поддеревьях
+        for (SimpleTreeNode<T> child : node.Children) {
+            int childCount = dfs(child, result);
+            if (childCount % 2 == 1) { // Если поддерево нечётное
+                result.add(node); // Добавляем текущую вершину в результат
+                result.add(child); // Добавляем наследника в результат
+                child.Parent = null; // Удаляем ребро
+                child.Children = null; // Удаляем ребро
+            }
+            count += childCount;
+        }
+
+        return count;
     }
 
 }
