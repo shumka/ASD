@@ -127,23 +127,27 @@ class SimpleGraph {
         return path; // Путь не найден
     }
 
-
     public ArrayList<Vertex> WeakVertices() {
         ArrayList<Vertex> weakVertices = new ArrayList<>();
+        boolean[] visited = new boolean[max_vertex];
 
         for (int i = 0; i < max_vertex; i++) {
-            Vertex currentVertex = vertex[i];
-            if (currentVertex == null) continue;
-
-            int neighborCount = 0;
-            for (int j = 0; j < max_vertex; j++) {
-                if (m_adjacency[i][j] == 1) {
-                    neighborCount++;
+            if (!visited[i]) {
+                visited[i] = true;
+                for (int j = 0; j < max_vertex; j++) {
+                    if (m_adjacency[i][j] == 1 && !visited[j]) {
+                        visited[j] = true;
+                        for (int k = 0; k < max_vertex; k++) {
+                            if (m_adjacency[i][k] == 1 && m_adjacency[j][k] == 1 && !visited[k]) {
+                                visited[k] = true;
+                                break;
+                            }
+                        }
+                    }
                 }
-            }
-
-            if (neighborCount < 2) {
-                weakVertices.add(currentVertex);
+                if (!visited[i]) {
+                    weakVertices.add(vertex[i]);
+                }
             }
         }
 
