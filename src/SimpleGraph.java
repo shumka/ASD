@@ -129,25 +129,26 @@ class SimpleGraph {
 
 
     public ArrayList<Vertex> WeakVertices() {
-        ArrayList<Vertex> weakVertices = new ArrayList<>();
-
+        ArrayList<Vertex> nodesNotInTriangle = new ArrayList<>();
         for (int i = 0; i < max_vertex; i++) {
-            Vertex currentVertex = vertex[i];
-            if (currentVertex == null) continue;
-
-            int neighborCount = 0;
-            for (int j = 0; j < max_vertex; j++) {
-                if (m_adjacency[i][j] == 1) {
-                    neighborCount++;
-                }
-            }
-
-            if (neighborCount < 2) {
-                weakVertices.add(currentVertex);
+            if (!isNodeInTriangle(i)) {
+                nodesNotInTriangle.add(vertex[i]);
             }
         }
+        return nodesNotInTriangle;
+    }
 
-        return weakVertices;
+    private boolean isNodeInTriangle(int node) {
+        for (int neighbor1 = 0; neighbor1 < max_vertex; neighbor1++) {
+            if (m_adjacency[node][neighbor1] == 1) {
+                for (int neighbor2 = 0; neighbor2 < max_vertex; neighbor2++) {
+                    if (m_adjacency[neighbor1][neighbor2] == 1 && m_adjacency[node][neighbor2] == 1) {
+                        return true; // Найден треугольник
+                    }
+                }
+            }
+        }
+        return false; // Узел не входит ни в один треугольник
     }
 
 }
